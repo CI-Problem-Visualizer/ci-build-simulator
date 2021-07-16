@@ -11,7 +11,7 @@ node {
         sh("pwd")
         sh("ls")
         sh("git --version")
-        sh("echo $JAVA_HOME")
+        sh("echo ${env.JAVA_HOME}")
         sh("java -version")
         sh("javac -version")
         sh("git branch")
