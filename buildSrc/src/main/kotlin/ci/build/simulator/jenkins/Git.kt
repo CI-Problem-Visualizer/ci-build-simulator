@@ -36,6 +36,8 @@ class Git(private val project: Project) {
 
     fun currentBranch() = checkOutput("git", "branch", "--show-current")
 
+    fun originURL() = checkOutput("git", "remote", "get-url", "origin")
+
     private fun checkCall(vararg args: String) {
         project.exec {
             commandLine(args.toMutableList())

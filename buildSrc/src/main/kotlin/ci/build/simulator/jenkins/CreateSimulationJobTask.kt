@@ -13,8 +13,9 @@ open class CreateSimulationJobTask : DefaultTask() {
         if (jenkins.jobs.containsKey(job.name)) {
             throw RuntimeException("Job ${job.name} for branch '${job.branch}' already exists. Aborting.")
         }
-        createSimulationBranch(Git(project), job)
-        createSimulationJenkinsJob(job, jenkins)
+        val git = Git(project)
+        createSimulationBranch(git, job)
+        createSimulationJenkinsJob(job, jenkins, git)
     }
 
     private fun createSimulationBranch(git: Git, job: SimulationJob) {
@@ -37,9 +38,10 @@ open class CreateSimulationJobTask : DefaultTask() {
 
     private fun createSimulationJenkinsJob(
         job: SimulationJob,
-        jenkins: JenkinsServer
+        jenkins: JenkinsServer,
+        git: Git
     ) {
-        val jobXml = JenkinsJobTemplateSource.text(job.branch)
+        val jobXml = JenkinsJobTemplateSource.text(job.branch, git.originURL())
         logger.info("New job XML:\n-----\n$jobXml\n-----")
         jenkins.createJob(job.name, jobXml, true)
         logger.quiet("Created Jenkins job named '${job.name}'")

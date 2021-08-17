@@ -1,7 +1,7 @@
 package ci.build.simulator.jenkins
 
 object JenkinsJobTemplateSource {
-    fun text(branch: String): String {
+    fun text(branch: String, originURL: String): String {
         return """
 <?xml version='1.1' encoding='UTF-8'?>
 <flow-definition plugin="workflow-job@2.41">
@@ -31,7 +31,7 @@ object JenkinsJobTemplateSource {
       <configVersion>2</configVersion>
       <userRemoteConfigs>
         <hudson.plugins.git.UserRemoteConfig>
-          <url>https://github.com/robmoore-i/ci-build-simulator</url>
+          <url>$originURL</url>
         </hudson.plugins.git.UserRemoteConfig>
       </userRemoteConfigs>
       <branches>
